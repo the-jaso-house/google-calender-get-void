@@ -130,6 +130,19 @@ export default function AppPage() {
     });
   };
 
+  const handleCopyAll = () => {
+    const allSlotsText = freeSlots.map((slot) => {
+      const start = DateTime.fromISO(slot.start, { zone: timezone });
+      const end = DateTime.fromISO(slot.end, { zone: timezone });
+      return `${start.toFormat('yyyy-MM-dd HH:mm')}-${end.toFormat('HH:mm')} (${slot.durationMinutes}分)`;
+    }).join('\n');
+
+    navigator.clipboard.writeText(allSlotsText).then(() => {
+      setCopiedSlot('all');
+      setTimeout(() => setCopiedSlot(null), 2000);
+    });
+  };
+
   // Group free slots by date
   const groupedSlots = freeSlots.reduce((acc, slot) => {
     if (!acc[slot.date]) {
@@ -294,9 +307,20 @@ export default function AppPage() {
         {/* Results */}
         {freeSlots.length > 0 && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">
-              空き時間（{freeSlots.length}件）
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">
+                空き時間（{freeSlots.length}件）
+              </h2>
+              <button
+                onClick={handleCopyAll}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                {copiedSlot === 'all' ? '✓ コピー済み' : '全てコピー'}
+              </button>
+            </div>
             <div className="space-y-6">
               {Object.entries(groupedSlots).map(([date, slots]) => (
                 <div key={date}>

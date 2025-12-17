@@ -1,15 +1,14 @@
 @echo off
-REM Stop the development server
+REM Stop the Google Calendar development server
 
-echo Stopping Google Calendar Free Time Finder...
+REM Change to the script directory
+cd /d "%~dp0"
 
-REM Kill all node processes (this will stop the dev server)
-taskkill /F /IM node.exe /T 2>nul
+REM Kill all node processes
+taskkill /F /IM node.exe /T >nul 2>&1
 
-if %errorlevel% equ 0 (
-    echo Server stopped successfully.
-) else (
-    echo No running server found.
-)
+REM Remove PID file if exists
+if exist "server.pid" del /F /Q "server.pid"
 
-timeout /t 3 /nobreak > nul
+REM No output - just close immediately
+exit

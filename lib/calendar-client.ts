@@ -39,8 +39,14 @@ export async function getFreeBusySlots(
       start: slot.start!,
       end: slot.end!,
     }));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching freebusy data:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      errors: error.errors,
+      response: error.response?.data
+    });
     throw new Error('Failed to fetch calendar data from Google Calendar API');
   }
 }
@@ -76,8 +82,14 @@ export async function listCalendars(
       id: cal.id!,
       summary: cal.summary || cal.id!,
     }));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching calendar list:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      errors: error.errors,
+      response: error.response?.data
+    });
     throw new Error('Failed to fetch calendar list');
   }
 }

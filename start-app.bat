@@ -1,29 +1,18 @@
 @echo off
 REM Google Calendar Free Time Finder - Startup Script
-REM This script starts the development server and opens the browser
-
-echo Starting Google Calendar Free Time Finder...
-echo.
+REM This launches the PowerShell script for better cleanup handling
 
 REM Change to the script directory
 cd /d "%~dp0"
 
-REM Start the development server
-echo Starting development server...
-start /B npm run dev
+REM Launch PowerShell script with execution policy bypass
+powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0start-app.ps1"
 
-REM Wait for server to start (15 seconds)
-echo Waiting for server to start...
-timeout /t 15 /nobreak > nul
-
-REM Open browser
-echo Opening browser...
-start http://localhost:3000
-
-echo.
-echo Application started!
-echo Close this window to stop the server.
-echo.
-
-REM Keep the window open and wait for user input
-pause
+REM If PowerShell fails, show error message
+if errorlevel 1 (
+    echo.
+    echo ERROR: Failed to start the application.
+    echo Please make sure PowerShell is installed.
+    echo.
+    pause
+)

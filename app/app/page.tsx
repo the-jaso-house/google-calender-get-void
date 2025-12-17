@@ -230,7 +230,7 @@ export default function AppPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  勤務開始時刻
+                  開始時刻
                 </label>
                 <input
                   type="time"
@@ -242,7 +242,7 @@ export default function AppPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  勤務終了時刻
+                  終了時刻
                 </label>
                 <input
                   type="time"
